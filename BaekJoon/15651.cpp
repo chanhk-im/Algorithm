@@ -2,36 +2,23 @@
 
 using namespace std;
 
-int m, n;
-int p[10];
-
-bool check_confilct(int l, int n)
-{
-    for (int i = 0; i < l; i++)
-    {
-        if (n <= p[i])
-            return false;
-    }
-    return true;
-}
+int n, m;
+int c[10];
 
 void combination(int l)
 {
     if (l >= m)
     {
         for (int i = 0; i < m; i++)
-            cout << p[i] << ' ';
+            cout << c[i] << ' ';
         cout << '\n';
         return;
     }
 
     for (int i = 1; i <= n; i++)
     {
-        if (check_confilct(l, i))
-        {
-            p[l] = i;
-            combination(l + 1);
-        }
+        c[l] = i;
+        combination(l + 1);
     }
 }
 
@@ -41,7 +28,6 @@ int main()
     ios::sync_with_stdio(false);
 
     cin >> n >> m;
-
     combination(0);
 
     return 0;
