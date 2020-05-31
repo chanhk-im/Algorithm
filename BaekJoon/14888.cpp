@@ -28,7 +28,7 @@ void dfs(int l, int val)
     {
         if (val > _max)
             _max = val;
-        else if (val < _min)
+        if (val < _min)
             _min = val;
         return;
     }
