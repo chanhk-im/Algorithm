@@ -2,7 +2,7 @@
 
 using namespace std;
 
-char buff[100005];
+string buff;
 char c;
 
 int m;
@@ -18,8 +18,9 @@ int main()
     cin >> buff;
     cin >> m;
 
-    for (int i = 0; i < strlen(buff); i++)
-        left.push(buff[i]);
+    for (char c : buff) {
+        left.push(c);
+    }
 
     for (int i = 0; i < m; i++)
     {
