@@ -3,3 +3,4 @@
 *.json
 /.vscode
 test.cpp
+/test
