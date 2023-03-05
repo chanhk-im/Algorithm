@@ -6,7 +6,7 @@ char board[5][5];
 const int dx[8] = { -1, -1, -1, 0, 1, 1, 1, 0 };
 const int dy[8] = { -1, 0, 1, 1, 1, 0, -1, -1 };
 
-bool hasWord(int y, int x, const string& word) {
+bool hasWord(int y, int x, const string &word) {
     if (y >= 5 || x >= 5 || y < 0 || x < 0) 
         return false;
     if (board[y][x] != word[0])

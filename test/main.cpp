@@ -1,45 +1,86 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
-int t, n;
-int score[100004][2];
-int dp[100004][2];
+class MinHeap {
+private:
+    vector<int> heap;
 
-int main()
-{
-    cin.tie(NULL);
-    ios::sync_with_stdio(false);
+    void heapify_up(int index) {
+        if (index == 0) return;
 
-    cin >> t;
-
-    for (int i = 0; i < t; i++) {
-        cin >> n;
-        for (int j = 0; j < n; j++) 
-            cin >> score[j][0];
-        for (int j = 0; j < n; j++) 
-            cin >> score[j][1];
-
-        fill(&dp[0][0], &dp[100003][2], -1);
-
-        dp[0][0] = score[0][0];
-        dp[0][1] = score[0][1];
-
-        dp[1][0] = dp[0][0] + score[1][1];
-        dp[1][1] = dp[0][1] + score[1][0];
-
-        for (int j = 2; j < n; j++) {
-            if (j % 2 == 0) {
-                dp[j][0] = dp[j - 1][0] + score[j][0] > dp[j - 2][1] + score[j][0] ? dp[j - 1][0] + score[j][0] : dp[j - 2][1] + score[j][0]; 
-                dp[j][1] = dp[j - 1][1] + score[j][1] > dp[j - 2][0] + score[j][1] ? dp[j - 1][1] + score[j][1] : dp[j - 2][0] + score[j][1]; 
-            } else {
-                dp[j][0] = dp[j - 1][0] + score[j][1] > dp[j - 2][1] + score[j][1] ? dp[j - 1][0] + score[j][1] : dp[j - 2][1] + score[j][1]; 
-                dp[j][1] = dp[j - 1][1] + score[j][0] > dp[j - 2][0] + score[j][0] ? dp[j - 1][1] + score[j][0] : dp[j - 2][0] + score[j][0]; 
-            }
+        int parent = (index - 1) / 2;
+        if (heap[parent] > heap[index]) {
+            swap(heap[parent], heap[index]);
+            heapify_up(parent);
         }
-        cout << (dp[n - 1][0] > dp[n - 1][1] ? dp[n - 1][0] : dp[n - 1][1]) << '\n';
     }
 
+    void heapify_down(int index) {
+        int left_child = 2 * index + 1;
+        int right_child = 2 * index + 2;
+        int smallest = index;
+
+        if (left_child < heap.size() && heap[left_child] < heap[smallest]) {
+            smallest = left_child;
+        }
+        if (right_child < heap.size() && heap[right_child] < heap[smallest]) {
+            smallest = right_child;
+        }
+        if (smallest != index) {
+            swap(heap[smallest], heap[index]);
+            heapify_down(smallest);
+        }
+    }
+
+public:
+    void insert(int value) {
+        heap.push_back(value);
+        heapify_up(heap.size() - 1);
+    }
+
+    int pop() {
+        if (heap.empty()) {
+            cout << "Heap is empty." << endl;
+            return -1;
+        }
+
+        int value = heap[0];
+        heap[0] = heap.back();
+        heap.pop_back();
+        heapify_down(0);
+
+        return value;
+    }
+
+    bool is_empty() {
+        return heap.empty();
+    }
+
+    void print() {
+        for (int i = 0; i < heap.size(); i++) {
+            cout << heap[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    MinHeap heap;
+
+    heap.insert(5);
+    heap.insert(3);
+    heap.insert(7);
+    heap.insert(2);
+    heap.insert(8);
+
+    heap.print();
+
+    while (!heap.is_empty()) {
+        cout << heap.pop() << " ";
+    }
+    cout << endl;
 
     return 0;
 }
